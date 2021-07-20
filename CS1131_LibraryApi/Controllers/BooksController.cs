@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using CS1131_LibraryApi.Domain;
 using CS1131_LibraryApi.Dto;
-using CS1131_LibraryApi.Dto.Converters;
 using CS1131_LibraryApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,24 +21,26 @@ namespace CS1131_LibraryApi.Controllers
         }
 
         [HttpGet]
-        public List<BookDto> Get(bool includeAuthor = false)
+        public List<BookDto> Get()
         {
-            return _service.GetAllBooks(includeAuthor = false).Result;
+            return _service.GetAllBooks().Result;
         }
 
         [HttpGet, Route("{id}")]
-        public ActionResult<BookDto> Get(int id, bool includeAuthor=false)
+        public ActionResult<BookDto> Get(int id)
         {
-            var dto = _service.GetBook(id, includeAuthor).Result;
+            var dto = _service.GetBook(id).Result;
             if (dto == null) return NotFound("The book Id is invalid or the book has been removed.");
             return Ok(dto);
-
+        
         }
 
         [HttpPost]
-        public BookDto Post(BookDto dto)
+        public ActionResult<BookDto> Post(BookDto dto)
         {
-            return _service.AddBook(dto).Result;
+            BookDto result = _service.AddBook(dto).Result;
+            if (result == null) return BadRequest("Invalid Book Description!");
+            else return Ok(result);
         }
     }
 }

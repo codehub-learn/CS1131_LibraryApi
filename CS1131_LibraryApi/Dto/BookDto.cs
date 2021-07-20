@@ -11,6 +11,5 @@ namespace CS1131_LibraryApi.Dto
         public string Name { get; set; }
         public AuthorDto Author { get; set; }
         public string Publisher { get; set; }
-        public int? RenterId { get; set; }
     }
 }

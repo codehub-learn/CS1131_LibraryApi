@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 using CS1131_LibraryApi.Data;
 using CS1131_LibraryApi.Domain;
 using CS1131_LibraryApi.Dto;
-using CS1131_LibraryApi.Dto.Converters;
 using CS1131_LibraryApi.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,9 +40,6 @@ namespace CS1131_LibraryApi
             });
 
             services.AddDbContext<LibContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CS1131_Library")));
-
-            services.AddScoped<IConverter<Book, BookDto>, BookConverter>();
-            services.AddScoped<IConverter<Author, AuthorDto>, AuthorConverter>();
             services.AddScoped<IBookService, BookService>();
         }
 

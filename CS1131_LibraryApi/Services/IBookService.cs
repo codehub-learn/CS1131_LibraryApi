@@ -9,8 +9,8 @@ namespace CS1131_LibraryApi.Services
 {
     public interface IBookService
     {
-        public Task<BookDto> GetBook(int Id, bool includeAuthors);
-        public Task<List<BookDto>> GetAllBooks(bool includeAuthors);
+        public Task<BookDto> GetBook(int Id);
+        public Task<List<BookDto>> GetAllBooks();
         public Task<BookDto> AddBook(BookDto dto);
     }
 }
