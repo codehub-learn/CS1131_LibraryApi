@@ -13,5 +13,6 @@ namespace CS1131_LibraryApi.Domain
         public int AuthorId { get; set; }
         public string Publisher { get; set; }
         public Member RentedTo { get; set; }
+        public int? RentedToId { get; set; }
     }
 }

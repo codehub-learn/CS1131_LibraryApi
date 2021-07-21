@@ -2,7 +2,7 @@
 
 namespace CS1131_LibraryApi.Migrations
 {
-    public partial class @new : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,7 +27,8 @@ namespace CS1131_LibraryApi.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -68,14 +69,29 @@ namespace CS1131_LibraryApi.Migrations
                 values: new object[] { -1, "Umberto", "Eco" });
 
             migrationBuilder.InsertData(
-                table: "Books",
-                columns: new[] { "Id", "AuthorId", "Name", "Publisher", "RentedToId" },
-                values: new object[] { -1, -1, "The Name of the Rose", "Fixed House", null });
+                table: "Authors",
+                columns: new[] { "Id", "FirstName", "LastName" },
+                values: new object[] { -2, "Haruki", "Murakami" });
+
+            migrationBuilder.InsertData(
+                table: "Members",
+                columns: new[] { "Id", "Email", "FirstName", "LastName" },
+                values: new object[] { -1, "jsmith@example.com", "John", "Smith" });
 
             migrationBuilder.InsertData(
                 table: "Books",
                 columns: new[] { "Id", "AuthorId", "Name", "Publisher", "RentedToId" },
                 values: new object[] { -2, -1, "The Limits of Interpretation", "Fixed House", null });
+
+            migrationBuilder.InsertData(
+                table: "Books",
+                columns: new[] { "Id", "AuthorId", "Name", "Publisher", "RentedToId" },
+                values: new object[] { -3, -2, "Kafka on the Shore", "Arctic Editions", null });
+
+            migrationBuilder.InsertData(
+                table: "Books",
+                columns: new[] { "Id", "AuthorId", "Name", "Publisher", "RentedToId" },
+                values: new object[] { -1, -1, "The Name of the Rose", "Fixed House", -1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_AuthorId",

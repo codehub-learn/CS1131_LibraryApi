@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CS1131_LibraryApi.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,8 +26,23 @@ namespace CS1131_LibraryApi.Data
                     Id = -1,
                     FirstName = "Umberto",
                     LastName = "Eco"
+                },
+                new Author()
+                {
+                    Id = -2,
+                    FirstName = "Haruki",
+                    LastName = "Murakami"
                 }
             );
+
+            modelBuilder.Entity<Member>().HasData(
+                new Member()
+                {
+                    Id = -1,
+                    FirstName = "John",
+                    LastName = "Smith",
+                    Email = "jsmith@example.com",
+                });
 
             modelBuilder.Entity<Book>().HasData(
                 new Book()
@@ -38,7 +50,8 @@ namespace CS1131_LibraryApi.Data
                     Id = -1,
                     Name = "The Name of the Rose",
                     Publisher = "Fixed House",
-                    AuthorId = -1 
+                    AuthorId = -1, 
+                    RentedToId = -1
                 },
                 new Book()
                 {
@@ -46,6 +59,13 @@ namespace CS1131_LibraryApi.Data
                     Name = "The Limits of Interpretation",
                     Publisher = "Fixed House",
                     AuthorId = -1
+                },
+                new Book()
+                {
+                    Id = -3,
+                    Name = "Kafka on the Shore",
+                    Publisher = "Arctic Editions",
+                    AuthorId = -2
                 });
 
 

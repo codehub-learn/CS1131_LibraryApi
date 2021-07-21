@@ -39,7 +39,9 @@ namespace CS1131_LibraryApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CS1131_LibraryApi", Version = "v1" });
             });
 
-            services.AddDbContext<LibContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CS1131_Library")));
+            services.AddDbContext<LibContext>(options => options
+                .EnableSensitiveDataLogging()
+                .UseSqlServer(Configuration.GetConnectionString("CS1131_Library")));
             services.AddScoped<IBookService, BookService>();
         }
 

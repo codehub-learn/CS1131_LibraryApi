@@ -42,6 +42,12 @@ namespace CS1131_LibraryApi.Migrations
                             Id = -1,
                             FirstName = "Umberto",
                             LastName = "Eco"
+                        },
+                        new
+                        {
+                            Id = -2,
+                            FirstName = "Haruki",
+                            LastName = "Murakami"
                         });
                 });
 
@@ -78,7 +84,8 @@ namespace CS1131_LibraryApi.Migrations
                             Id = -1,
                             AuthorId = -1,
                             Name = "The Name of the Rose",
-                            Publisher = "Fixed House"
+                            Publisher = "Fixed House",
+                            RentedToId = -1
                         },
                         new
                         {
@@ -86,6 +93,13 @@ namespace CS1131_LibraryApi.Migrations
                             AuthorId = -1,
                             Name = "The Limits of Interpretation",
                             Publisher = "Fixed House"
+                        },
+                        new
+                        {
+                            Id = -3,
+                            AuthorId = -2,
+                            Name = "Kafka on the Shore",
+                            Publisher = "Arctic Editions"
                         });
                 });
 
@@ -96,6 +110,9 @@ namespace CS1131_LibraryApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
@@ -105,6 +122,15 @@ namespace CS1131_LibraryApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Members");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            Email = "jsmith@example.com",
+                            FirstName = "John",
+                            LastName = "Smith"
+                        });
                 });
 
             modelBuilder.Entity("CS1131_LibraryApi.Domain.Book", b =>
