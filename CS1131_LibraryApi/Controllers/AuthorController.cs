@@ -20,39 +20,41 @@ namespace CS1131_LibraryApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<AuthorDto>> Get(bool includeBooks = false)
+        public async Task<ActionResult<List<AuthorDto>>> Get(bool includeBooks = false)
         {
-            return _service.GetAllAuthors(includeBooks).Result;
+            var response = await _service.GetAllAuthors(includeBooks);
+            return response;
         }
 
         [HttpGet, Route("{id}")]
-        public ActionResult<AuthorDto> Get(int id, bool includeBooks = false)
+        public async Task<ActionResult<AuthorDto>> Get(int id, bool includeBooks = false)
         {
-            return _service.GetAuthor(id, includeBooks).Result;
+            var response = await _service.GetAuthor(id, includeBooks);
+            return response;
         }
 
         [HttpGet, Route("Search")]
-        public ActionResult<List<AuthorDto>> Search(string firstName, string lastName, bool includeBooks = false)
+        public async Task<ActionResult<List<AuthorDto>>> Search(string firstName, string lastName, bool includeBooks = false)
         {
-            var response = _service.Search(firstName, lastName, includeBooks);
-            if (response.Result == null) return NotFound("Could not find any author that matches the specified criteria.");
-            return response.Result;
+            var response = await _service.Search(firstName, lastName, includeBooks);
+            if (response == null) return NotFound("Could not find any author that matches the specified criteria.");
+            return response;
         }
 
         [HttpPost]
-        public ActionResult<AuthorDto> Post(AuthorDto dto)
+        public async Task<ActionResult<AuthorDto>> Post(AuthorDto dto)
         {
 
-            AuthorDto result = _service.AddAuthor(dto).Result;
+            AuthorDto result = await _service.AddAuthor(dto);
             return Ok(result);
         }
 
         [HttpPatch, Route("{id}")]
-        public ActionResult<AuthorDto> Patch([FromRoute] int id, [FromBody] AuthorDto dto)
+        public async Task<ActionResult<AuthorDto>> Patch([FromRoute] int id, [FromBody] AuthorDto dto)
         {
             try
             {
-                var response = _service.Update(id, dto).Result;
+                var response = await _service.Update(id, dto);
                 return Ok(response);
             }
 
@@ -69,11 +71,11 @@ namespace CS1131_LibraryApi.Controllers
         }
 
         [HttpPut, Route("{id}")]
-        public ActionResult<AuthorDto> Put([FromRoute] int id, [FromBody] AuthorDto dto)
+        public async Task<ActionResult<AuthorDto>> Put([FromRoute] int id, [FromBody] AuthorDto dto)
         {
             try
             {
-                var response = _service.Replace(id, dto).Result;
+                var response = await _service.Replace(id, dto);
                 return Ok(response);
             }
 
@@ -90,9 +92,9 @@ namespace CS1131_LibraryApi.Controllers
         }
 
         [HttpDelete, Route("{id}")]
-        public ActionResult<bool> Delete(int id)
+        public async Task<ActionResult<bool>> Delete(int id)
         {
-            return _service.Delete(id).Result;
+            return await _service.Delete(id);
         }
     }
 }
