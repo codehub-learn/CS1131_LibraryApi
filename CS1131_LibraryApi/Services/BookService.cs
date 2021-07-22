@@ -21,6 +21,10 @@ namespace CS1131_LibraryApi.Services
             _context = context;
         }
 
+        /// <summary>
+        /// Retrieves a list of all books.
+        /// </summary>
+        /// <returns>Retrurns a list of BookDtos.</returns>
         public async Task<List<BookDto>> GetAllBooks()
         {
             return await _context.Books
@@ -41,7 +45,11 @@ namespace CS1131_LibraryApi.Services
                 .ToListAsync();
         }
 
-
+        /// <summary>
+        /// Retrieves the details of a specific book selected by its id.
+        /// </summary>
+        /// <param name="id">The if of the book to retrieve.</param>
+        /// <returns>Returns a BookDto object.</returns>
         public async Task<BookDto> GetBook(int id)
         {
             var book = await _context.Books
@@ -65,7 +73,13 @@ namespace CS1131_LibraryApi.Services
             };
         }
 
-        
+        /// <summary>
+        /// Create a new book.
+        /// </summary>
+        /// <param name="dto">BookDto with book characteristics.
+        /// The author must already exist and a Name for the book is required.</param>
+        /// <returns>Returns the newly created book.
+        /// If the author cannot be found the book is not created and null is returned instead.</returns>
         public async Task<BookDto> AddBook(BookDto dto)
         {
             Author bookAuthor = await _context.Authors.SingleOrDefaultAsync(a => a.Id == dto.Author.Id);
@@ -84,6 +98,15 @@ namespace CS1131_LibraryApi.Services
             return book.Convert();
         }
 
+        /// <summary>
+        /// Search for books by specified characteristics. Any combination can be used.
+        /// The method is case insensitive.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="publisher"></param>
+        /// <param name="authorFirst"></param>
+        /// <param name="authorLast"></param>
+        /// <returns>Returns a list of books with specified characteristics.</returns>
         public async Task<List<BookDto>> Search
             ([FromQuery] string name, [FromQuery] string publisher, [FromQuery] string authorFirst, [FromQuery] string authorLast)
         {
@@ -122,6 +145,11 @@ namespace CS1131_LibraryApi.Services
             return response;
         }
 
+        /// <summary>
+        /// Check if a book is rented, and if it is, get details of the rental.
+        /// </summary>
+        /// <param name="bookId">Id of the book to check for rental.</param>
+        /// <returns>Returns a BookRentalDto containing both the member and the book details if the book is rented, or null otherwise.</returns>
         public async Task<BookRentalDto> GetRental(int bookId)
         {
             var result = await _context.Books
@@ -177,6 +205,10 @@ namespace CS1131_LibraryApi.Services
             if (book is null)
                 throw new NotFoundException("The book id is invalid or has been removed.");
 
+            if (book.Author is null)
+                throw new NotFoundException
+                    ("An author must be specified. To update only specific properties of a book, consider using the PATCH method");
+
             Author author = await _context.Authors
                 .SingleOrDefaultAsync(a => a.Id == dto.Author.Id);
 
@@ -193,8 +225,20 @@ namespace CS1131_LibraryApi.Services
             return book.Convert();
         }
 
+        /// <summary>
+        /// Deletes a book.
+        /// </summary>
+        /// <param name="id">Id of book</param>
+        /// <returns>True if the book is deleted</returns>
+        public async Task<bool> Delete(int id)
+        {
+            Book book = await _context.Books.SingleOrDefaultAsync(b => b.Id == id);
+            if (book is null) return false;
 
-
+            _context.Remove(book);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 
 }

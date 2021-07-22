@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CS1131_LibraryApi</name>
+    </assembly>
+    <members>
+        <member name="M:CS1131_LibraryApi.Services.AuthorService.GetAuthor(System.Int32,System.Boolean)">
+            <summary>
+            Returns an author's basic details
+            </summary>
+            <param name="id">Id of the author</param>
+            <param name="includeBooks">Optionally, can also include the books of the author</param>
+            <returns>AuthorDto</returns>
+        </member>
+        <member name="M:CS1131_LibraryApi.Services.AuthorService.GetAllAuthors(System.Boolean)">
+            <summary>
+            Returns all authors with their basic details
+            </summary>
+            <param name="includeBooks">Optionally, can also include the books of the author</param>
+            <returns>List of AuhtorDto</returns>
+        </member>
+        <member name="M:CS1131_LibraryApi.Services.AuthorService.AddAuthor(CS1131_LibraryApi.Dto.AuthorDto)">
+            <summary>
+            Adds a new author
+            </summary>
+            <param name="dto">Request body with details of new author</param>
+            <returns>Dto representation of the new author</returns>
+        </member>
+        <member name="M:CS1131_LibraryApi.Services.AuthorService.Search(System.String,System.String,System.Boolean)">
+            <summary>
+            Returns authors that specify criteria (non-case sensitive)
+            </summary>
+            <param name="firstName">Author First Name (Optional)</param>
+            <param name="lastName">Author Last Name (Optional)</param>
+            <param name="includeBooks">Optionally, also include books of retruned authors</param>
+            <returns>List of AuthorDto</returns>
+        </member>
+        <member name="M:CS1131_LibraryApi.Services.AuthorService.Update(System.Int32,CS1131_LibraryApi.Dto.AuthorDto)">
+            <summary>
+            Update an author's specified basic properties
+            </summary>
+            <param name="authorId">Id of author</param>
+            <param name="dto">Body with author properties to update</param>
+            <returns>AuthorDto representation of updated author</returns>
+            <exception cref="T:CS1131_LibraryApi.Services.NotFoundException">NotFoundException thrown if author does not exist</exception>
+        </member>
+        <member name="M:CS1131_LibraryApi.Services.AuthorService.Replace(System.Int32,CS1131_LibraryApi.Dto.AuthorDto)">
+            <summary>
+            Update all basic properties of an author.
+            If not specified in the request body, properties are set to null.
+            </summary>
+            <param name="authorId">Id of author</param>
+            <param name="dto">Body with updated author properties</param>
+            <returns>AuthorDto representation of updated author</returns>
+            <exception cref="T:CS1131_LibraryApi.Services.NotFoundException">NotFoundException thrown if author does not exist</exception>
+        </member>
+        <member name="M:CS1131_LibraryApi.Services.BookService.GetAllBooks">
+            <summary>
+            Retrieves a list of all books.
+            </summary>
+            <returns>Retrurns a list of BookDtos.</returns>
+        </member>
+        <member name="M:CS1131_LibraryApi.Services.BookService.GetBook(System.Int32)">
+            <summary>
+            Retrieves the details of a specific book selected by its id.
+            </summary>
+            <param name="id">The if of the book to retrieve.</param>
+            <returns>Returns a BookDto object.</returns>
+        </member>
+        <member name="M:CS1131_LibraryApi.Services.BookService.AddBook(CS1131_LibraryApi.Dto.BookDto)">
+            <summary>
+            Create a new book.
+            </summary>
+            <param name="dto">BookDto with book characteristics.
+            The author must already exist and a Name for the book is required.</param>
+            <returns>Returns the newly created book.
+            If the author cannot be found the book is not created and null is returned instead.</returns>
+        </member>
+        <member name="M:CS1131_LibraryApi.Services.BookService.Search(System.String,System.String,System.String,System.String)">
+            <summary>
+            Search for books by specified characteristics. Any combination can be used.
+            The method is case insensitive.
+            </summary>
+            <param name="name"></param>
+            <param name="publisher"></param>
+            <param name="authorFirst"></param>
+            <param name="authorLast"></param>
+            <returns>Returns a list of books with specified characteristics.</returns>
+        </member>
+        <member name="M:CS1131_LibraryApi.Services.BookService.GetRental(System.Int32)">
+            <summary>
+            Check if a book is rented, and if it is, get details of the rental.
+            </summary>
+            <param name="bookId">Id of the book to check for rental.</param>
+            <returns>Returns a BookRentalDto containing both the member and the book details if the book is rented, or null otherwise.</returns>
+        </member>
+        <member name="M:CS1131_LibraryApi.Services.BookService.Update(System.Int32,CS1131_LibraryApi.Dto.BookDto)">
+            <summary>
+            Updates a book by replacing only the given properties. 
+            </summary>
+            <param name="bookId">Id of the book to replace.</param>
+            <param name="dto">(Partial) representation of the updated book.</param>
+            <returns>DTO of the complete updated book.</returns>
+            <exception cref="T:CS1131_LibraryApi.Services.NotFoundException"></exception>
+        </member>
+        <member name="M:CS1131_LibraryApi.Services.BookService.Replace(System.Int32,CS1131_LibraryApi.Dto.BookDto)">
+            <summary>
+            Accepts a complete representation of a book and replaces the existing one.
+            </summary>
+            <param name="bookId">Id of the book to replace.</param>
+            <param name="dto">Representation of the updated book.</param>
+            <returns>DTO of the updated book</returns>
+            <exception cref="T:CS1131_LibraryApi.Services.NotFoundException">Occurs if the specified book or its author does not exist.</exception>
+        </member>
+        <member name="M:CS1131_LibraryApi.Services.BookService.Delete(System.Int32)">
+            <summary>
+            Deletes a book
+            </summary>
+            <param name="id">Id of book</param>
+            <returns>True if the book is deleted</returns>
+        </member>
+    </members>
+</doc>

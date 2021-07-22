@@ -43,6 +43,8 @@ namespace CS1131_LibraryApi
                 .EnableSensitiveDataLogging()
                 .UseSqlServer(Configuration.GetConnectionString("CS1131_Library")));
             services.AddScoped<IBookService, BookService>();
+            services.AddScoped<IAuthorService, AuthorService>();
+            services.AddScoped<IMemberService, MemberService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

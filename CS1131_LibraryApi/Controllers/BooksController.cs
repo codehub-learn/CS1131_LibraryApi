@@ -51,7 +51,7 @@ namespace CS1131_LibraryApi.Controllers
             {
                 var response = _service.GetRental(id).Result;
                 if (response == null)
-                    return NotFound("Could not find a rental for the book or the book does not exist.");
+                    return NotFound("Could not find a rental for the book.");
                 return response;
             }
             catch (AggregateException e)
@@ -115,7 +115,12 @@ namespace CS1131_LibraryApi.Controllers
             }
 
             return StatusCode(500);
-            
+        }
+
+        [HttpDelete, Route("{id}")]
+        public ActionResult<bool> Delete(int id)
+        {
+            return _service.Delete(id).Result;
         }
     }
 }

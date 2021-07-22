@@ -15,5 +15,6 @@ namespace CS1131_LibraryApi.Services
         public Task<BookRentalDto> GetRental(int bookId);
         public Task<BookDto> Update(int bookId, BookDto dto);
         public Task<BookDto> Replace(int bookId, BookDto dto);
+        public Task<bool> Delete(int bookId);
     }
 }

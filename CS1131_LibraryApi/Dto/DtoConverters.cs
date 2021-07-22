@@ -44,5 +44,32 @@ namespace CS1131_LibraryApi.Dto
                 }
             };
         }
+
+        public static AuthorDto Convert(this Author author)
+        {
+            var result = new AuthorDto()
+            {
+                Id = author.Id,
+                FirstName = author.FirstName,
+                LastName = author.LastName
+            };
+
+            if (author.Books is not null)
+            {
+                result.Books = author.Books.Select(b => b.Convert()).ToList();
+            }
+
+            return result;
+        }
+
+        public static MemberDto Convert(this Member member)
+        {
+            return  new MemberDto()
+            {
+                Id = member.Id,
+                FirstName = member.FirstName,
+                LastName = member.LastName
+            };
+        }
     }
 }
