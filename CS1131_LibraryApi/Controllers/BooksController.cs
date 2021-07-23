@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CS1131_LibraryApi.Controllers
 {
+    [ApiVersion("1.0", Deprecated = true)]
+    [ApiVersion("1.1")]
     [ApiController]
     [Route("[controller]")]
     public class BooksController : ControllerBase
@@ -22,20 +24,21 @@ namespace CS1131_LibraryApi.Controllers
         }
 
         [HttpGet]
-        public List<BookDto> Get()
+        public async Task<List<BookDto>> Get()
         {
-            return _service.GetAllBooks().Result;
+            return await _service.GetAllBooks();
         }
 
         [HttpGet, Route("{id}")]
-        public ActionResult<BookDto> Get(int id)
+        public async Task<ActionResult<BookDto>> Get(int id)
         {
-            var dto = _service.GetBook(id).Result;
+            var dto = await _service.GetBook(id);
             if (dto == null) return NotFound("The book Id is invalid or the book has been removed.");
             return Ok(dto);
         
         }
 
+        [ApiVersion("1.1")]
         [HttpGet, Route("Search")]
         public ActionResult<List<BookDto>> Search(string name, string publisher, string authorFirst, string authorLast)
         {
@@ -45,11 +48,11 @@ namespace CS1131_LibraryApi.Controllers
         }
 
         [HttpGet, Route("{id}/rental")]
-        public ActionResult<BookRentalDto> GetRental([FromRoute] int id)
+        public async ActionResult<BookRentalDto> GetRental([FromRoute] int id)
         {
             try
             {
-                var response = _service.GetRental(id).Result;
+                var response = await _service.GetRental(id);
                 if (response == null)
                     return NotFound("Could not find a rental for the book.");
                 return response;
@@ -67,20 +70,20 @@ namespace CS1131_LibraryApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<BookDto> Post(BookDto dto)
+        public async Task<ActionResult<BookDto>> Post(BookDto dto)
         {
 
-            BookDto result = _service.AddBook(dto).Result;
+            BookDto result = await _service.AddBook(dto);
             if (result == null) return NotFound("The specified author Id is invalid or the author has been removed. Could not create book.");
             return Ok(result);
         }
 
         [HttpPatch, Route("{id}")]
-        public ActionResult<BookDto> Patch([FromRoute] int id, [FromBody] BookDto dto)
+        public async Task<ActionResult<BookDto>> Patch([FromRoute] int id, [FromBody] BookDto dto)
         {
             try
             {
-                var response = _service.Update(id, dto).Result;
+                var response = await _service.Update(id, dto);
                 return Ok(response);
             }
 
@@ -97,11 +100,11 @@ namespace CS1131_LibraryApi.Controllers
         }
 
         [HttpPut, Route("{id}")]
-        public ActionResult<BookDto> Put([FromRoute] int id, [FromBody] BookDto dto)
+        public async Task<ActionResult<BookDto>> Put([FromRoute] int id, [FromBody] BookDto dto)
         {
             try
             {
-                var response = _service.Replace(id, dto).Result;
+                var response = await _service.Replace(id, dto);
                 return Ok(response);
             }
 
@@ -118,9 +121,9 @@ namespace CS1131_LibraryApi.Controllers
         }
 
         [HttpDelete, Route("{id}")]
-        public ActionResult<bool> Delete(int id)
+        public async Task<ActionResult<bool>> Delete(int id)
         {
-            return _service.Delete(id).Result;
+            return await _service.Delete(id);
         }
     }
 }

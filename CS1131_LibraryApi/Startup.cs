@@ -36,7 +36,7 @@ namespace CS1131_LibraryApi
             services.AddSwaggerGen(c =>
             {
                 //https://docs.microsoft.com/en-us/learn/modules/improve-api-developer-experience-with-swagger/
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CS1131_LibraryApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "CS1131_LibraryApi", Version = "v1"});
             });
 
             services.AddDbContext<LibContext>(options => options
@@ -45,6 +45,12 @@ namespace CS1131_LibraryApi
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IMemberService, MemberService>();
+            services.AddApiVersioning(options =>
+            {
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 1);
+                options.ReportApiVersions = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

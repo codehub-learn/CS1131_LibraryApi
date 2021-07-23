@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using CS1131_LibraryApi.Dto;
 using CS1131_LibraryApi.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -19,23 +20,23 @@ namespace CS1131_LibraryApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<MemberDto>> Get(bool includeBooks = false)
+        public async Task<ActionResult<List<MemberDto>>> Get(bool includeBooks = false)
         {
-            return _service.GetAllMembers().Result;
+            return await _service.GetAllMembers();
         }
 
         [HttpGet, Route("{id}")]
-        public ActionResult<MemberDto> Get(int id)
+        public async Task<ActionResult<MemberDto>> Get(int id)
         {
-            return _service.GetMember(id).Result;
+            return await _service.GetMember(id);
         }
 
         [HttpPost, Route("{id}/rent")]
-        public ActionResult<bool> Rent(int id, [Required] int bookId)
+        public async Task<ActionResult<bool>> Rent(int id, [Required] int bookId)
         {
             try
             {
-                return _service.Rent(id, bookId).Result;
+                return await _service.Rent(id, bookId);
             }
             catch (NotFoundException e)
             {
@@ -44,11 +45,11 @@ namespace CS1131_LibraryApi.Controllers
         }
 
         [HttpPost, Route("return"), Route("{id}/return")]
-        public ActionResult<bool> Rent([Required] int bookId)
+        public async Task<ActionResult<bool>> Rent([Required] int bookId)
         {
             try
             {
-                return _service.Return(bookId).Result;
+                return await _service.Return(bookId);
             }
 
             catch (AggregateException e)
@@ -64,17 +65,17 @@ namespace CS1131_LibraryApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<MemberDto> Post(MemberDto dto)
+        public async Task<ActionResult<MemberDto>> Post(MemberDto dto)
         {
-           return _service.AddMember(dto).Result;
+           return await _service.AddMember(dto);
         }
 
         [HttpPatch, Route("{id}")]
-        public ActionResult<MemberDto> Patch(int id, MemberDto dto)
+        public async Task<ActionResult<MemberDto>> Patch(int id, MemberDto dto)
         {
             try
             {
-                return _service.Update(id, dto).Result;
+                return await _service.Update(id, dto);
             }
 
             catch (AggregateException e)
@@ -90,11 +91,11 @@ namespace CS1131_LibraryApi.Controllers
         }
 
         [HttpPut, Route("{id}")]
-        public ActionResult<MemberDto> Put(int id, MemberDto dto)
+        public async Task<ActionResult<MemberDto>> Put(int id, MemberDto dto)
         {
             try
             {
-                return _service.Replace(id, dto).Result;
+                return await _service.Replace(id, dto);
             }
 
             catch (AggregateException e)
@@ -110,9 +111,9 @@ namespace CS1131_LibraryApi.Controllers
         }
 
         [HttpDelete, Route("{id}")]
-        public ActionResult<bool> Delete(int id)
+        public async Task<ActionResult<bool>> Delete(int id)
         {
-            return _service.Delete(id).Result;
+            return await _service.Delete(id);
         }
     }
 }
