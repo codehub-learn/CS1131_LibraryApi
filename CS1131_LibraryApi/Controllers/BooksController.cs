@@ -48,7 +48,7 @@ namespace CS1131_LibraryApi.Controllers
         }
 
         [HttpGet, Route("{id}/rental")]
-        public async ActionResult<BookRentalDto> GetRental([FromRoute] int id)
+        public async Task<ActionResult<BookRentalDto>> GetRental([FromRoute] int id)
         {
             try
             {
